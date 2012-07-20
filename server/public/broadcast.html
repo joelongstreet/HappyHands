@@ -1,0 +1,57 @@
+<!DOCTYPE>
+<html lang='en-US'>
+    <head>
+        <title>Gyro Socket</title>
+        <link rel='stylesheet' type='text/css' href='style.css' />
+        <script src='http://code.jquery.com/jquery-1.7.2.min.js'></script>
+        <script src='/socket.io/socket.io.js'></script>
+        <script>
+            var socket = io.connect('/');
+
+            $(function(){
+                
+                prev_a = 0;
+                prev_b = 0;
+                prev_g = 0;
+
+                prev_x = 0;
+                prev_y = 0;
+                prev_z = 0;
+
+                window.ondeviceorientation = function(e) {
+                    if(Math.round(e.alpha) != prev_a){
+                        socket.emit('alpha_update', e.alpha);
+                    }
+                    prev_a = Math.round(e.alpha);
+                    if(Math.round(e.beta) != prev_b){
+                        socket.emit('beta_update', e.beta);
+                    }
+                    prev_b = Math.round(e.beta);
+                    if(Math.round(e.gamma) != prev_g){
+                        socket.emit('gamma_update', e.gamma);
+                    }
+                    prev_g = Math.round(e.gamma);
+                }
+                
+                window.ondevicemotion = function(e) {
+                    if(Math.round(e.acceleration.x) != prev_x){
+                        socket.emit('x_update', e.acceleration.x);
+                    }
+                    prev_x = Math.round(e.acceleration.x);
+                    if(Math.round(e.acceleration.y) != prev_y){
+                        socket.emit('y_update', e.acceleration.y);
+                    }
+                    prev_y = Math.round(e.acceleration.y);
+                    if(Math.round(e.acceleration.z) != prev_z){
+                        socket.emit('z_update', e.acceleration.z);
+                    }
+                    prev_z = Math.round(e.acceleration.z);
+                }
+
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Broadcasting...</h1>
+    </body>
+</html>

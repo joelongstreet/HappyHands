@@ -1,0 +1,65 @@
+<html>
+    <head>
+        <title>Gyro Socket</title>
+        <link rel='stylesheet' type='text/css' href='style.css' />
+        <script src='http://code.jquery.com/jquery-1.7.2.min.js'></script>
+        <script src='/socket.io/socket.io.js'></script>
+        <script>
+            var socket = io.connect('/');
+            
+            $(function(){
+
+                var x_dom = $('.x');
+                var y_dom = $('.y');
+                var z_dom = $('.z');
+                var a_dom = $('.a');
+                var b_dom = $('.b');
+                var g_dom = $('.g');
+
+                socket.on('update_x', function(data){
+                    x_dom.text(Math.round(data*10000)/10000);
+                });
+
+                socket.on('update_y', function(data){
+                    y_dom.text(Math.round(data*10000)/10000);
+                });
+
+                socket.on('update_z', function(data){
+                    z_dom.text(Math.round(data*10000)/10000);
+                });
+
+                socket.on('update_a', function(data){
+                    a_dom.text(Math.round(data*10000)/10000);
+                });
+
+                socket.on('update_b', function(data){
+                    b_dom.text(Math.round(data*10000)/10000);
+                });
+
+                socket.on('update_g', function(data){
+                    g_dom.text(Math.round(data*10000)/10000);
+                });
+
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Listening</h1>
+        <div class='accelerometer'>
+            <h2>Device Orientation (accelerometer):</h2>
+            <ul>
+                <li>x:<span class='x'></span></li>
+                <li>y:<span class='y'></span></li>
+                <li>z:<span class='z'></span></li>
+            </ul>
+        </div>
+        <div class='gyroscope'>
+            <h2>Device Motion (gyroscope):</h2>
+            <ul>
+                <li>a:<span class='a'></span></li>
+                <li>b:<span class='b'></span></li>
+                <li>g:<span class='g'></span></li>
+            </ul>
+        </div>
+    </body>
+</html>
