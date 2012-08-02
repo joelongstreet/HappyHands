@@ -1,27 +1,17 @@
 # HAPPY HANDS :raised_hands: :clap: :punch:
 
-## Docs
+Happy Hands is a client side javascript library which helps you detect physical gestures coming from a mobile device.
 
-### Up & Down
-Up and down movements.
+## Planned Sample Usage:
 
-### Punch & Pull
-Long ways jerk.
+    script(src = '/HappyHands.js')
 
-### Whirlwhind
-Above your head
-To your side
+    hands   = new HappyHands
+    records = [[20, 50, 15, 9, 3, 6, 80, 5 ,1], [20, 50, 15, 9, 3, 6, 80, 5 ,1]]
 
-### Twist
-
-### ScrewDriver
-
-### Psycho
-
-### Lean
-
-### Fist Pump
+    hands.create records, ->
+        alert 'gesture complete'
 
 
-Time it took to complete an action
-Percent of action complete
+## Generating "Records"
+Records can be created from going to the happy hands web site and recording a gesture.
