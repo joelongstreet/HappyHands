@@ -1,0 +1,15 @@
+!!! 5
+html
+    head
+        title Happy Hands
+        meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+
+        != css('app')
+
+        script(src='http://code.jquery.com/jquery-1.8.0.min.js')
+        script(src='/socket.io/socket.io.js')
+
+        != js('app')
+
+    body
+        != body
