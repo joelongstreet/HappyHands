@@ -10,8 +10,7 @@
     "nib" : "*",
     "socket.io" : "v0.9.6",
     "coffee-script" : "v1.3.3",
-    "connect-assets" : "v2.2.1",
-    "bootstrap-stylus" : "v0.2.1"
+    "connect-assets" : "v2.2.1"
   },
   "scripts": {
     "start": "runner.js"

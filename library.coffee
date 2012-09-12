@@ -1,10 +1,21 @@
-HappyHands = ->
+class exports.HappyHands
 
-
-    initialize : (options) ->
+    constructor : (window, options) ->
         
-        @sensitivity    = options.sensitivity || 5
-        @position       = []
+        if options
+            @accuracy   = options.accuracy || 5
+            @poll_speed = options.poll_speed || 50
+        else
+            @accuracy   = 5
+            @poll_speed = 50
+
+        @listeners  = []
+        @position   = [0,0,0,0,0,0,0,0,0]
+
+        window.ondeviceorientation = (e) =>
+            @position[0] = e.alpha
+            @position[1] = e.beta
+            @position[2] = e.gamma
 
         window.ondevicemotion = (e) =>
             @position[3] = e.acceleration.x
@@ -14,23 +25,44 @@ HappyHands = ->
             @position[7] = e.accelerationIncludingGravity.y
             @position[8] = e.accelerationIncludingGravity.z
 
-        window.ondeviceorientation = (e) =>
-            @position[0] = e.alpha
-            @position[1] = e.beta
-            @position[2] = e.gamma
+        #setInterval (=> @check_listeners()), @poll_speed
+
+    on : (records, callback) ->
+        listener = new Listener records, @, callback
+        @listeners.push listener
+        return listener
+
+    check_listeners : ->
+        for listener in @listeners
+            listener.check_status()
 
 
-    create : (records, callback) ->
+class Listener
+    
+    constructor : (@records, @parent, @callback) ->
 
-        start_time  = new Date().getTime()
+        @complete       = false
+        @current_pos    = 0
+        @time           = 0
+        @passes         = 0
 
-        current     = 0
-        passes      = 0
 
-        for point in record[current]
-            if Math.abs(point - @position[_i]) < @sensitivity
-                passes++
-        if passes == 9 then current++
-            time = new Date().getTime() - start_time
+    check_status : ->
 
-            callback time
+        @passes = 0
+
+        start_time = new Date().getTime()
+        
+        for point in @records[@current_pos]
+            if Math.abs(point - @parent.position[_i]) < @parent.accuracy
+                @passes++
+                if @passes == 9 then @current_pos++
+
+        if @passes == 9 && (@current_pos == @records.length)
+            @time = new Date().getTime() - start_time
+            @callback()
+
+
+    you_complete_me : ->
+        @complete = true
+        @callback()

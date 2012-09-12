@@ -1,13 +1,12 @@
 express         = require 'express'
 path            = require 'path'
 stylus          = require 'stylus'
-bootstrap       = require 'bootstrap-stylus'
 nib             = require 'nib'
 app             = express.createServer()
 port            = process.env.PORT || 3000
 env             = process.env.environment || 'development'
 io              = require('socket.io').listen app
-
+routes          = require './routes'
 
 app.use require('connect-assets')()
 
@@ -24,19 +23,11 @@ app.set 'view engine', 'jade'
 
 app.use express.static path.join __dirname, 'public'
 
-app.get '/', (req, res, next) ->
-    user_agent = req.headers['user-agent']
-    if /mobile/i.test user_agent
-        res.render 'mobile'
-    else
-        res.render 'index'
-
+app.get '/', routes.index
+app.get '/listen', routes.listen
+app.get '/broadcast', routes.broadcast
 
 ###
-app.get '/', (req, res) ->
-    user_agent = req.headers['user-agent']
-    if /mobile/i.test user_agent then res.sendfile __dirname + '/public/broadcast.html'
-    else res.sendfile __dirname + '/public/listen.html'
 
 app.get '/broadcast', (req, res) ->
     res.sendfile __dirname + '/public/broadcast.html'
