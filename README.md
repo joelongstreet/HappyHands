@@ -31,6 +31,18 @@ Happy Hands is a client side javascript library which helps you detect physical 
             alert 'PUNCH SLAP'
 
 
+### Passing Options to Events
+    hands.on punch, (->
+        alert 'PUNCH'
+    ),
+    kill_on_complete    : true
+    accuracy            : 10
+
+
+
+
+
+
 ## Generating "Records"
 Records can be created from going to the happy hands web site and recording a gesture.
 

@@ -9,34 +9,13 @@ chai.should()
 
 {HappyHands} = require '../library' 
 
-
 hands = null
 
-
-describe 'The Library', ->
+describe 'Listeners', ->
 
     hands = new HappyHands window
-
-    it 'should work if no options are passed', ->
-        hands.accuracy.should.equal 5
-        hands.poll_speed.should.equal 50
-
-    it 'should accept new listeners', ->
-        punch = [[20, 50, 15, 9, 3, 6, 80, 5 ,1], [20, 50, 15, 9, 3, 6, 80, 5 ,1]]
-        action_complete = false
-
-        punch_listener = hands.on punch, ->
-            action_complete = true
-
-        punch_listener.records.should.equal punch
-
-    #it 'should allow listeners to be removed', ->
-        #hands.listeners.splice(hands.listeners.length, 1)
-        #hands.listeners.length.should.equal 0
-
-
-
-describe 'Listeners', ->
+    hands.accuracy.should.equal 5
+    hands.poll_speed.should.equal 50
     
     punch       = [[20, 50, 15, 9, 3, 6, 80, 5 ,1], [29, 53, 12, 7, 5, 1, 88, 1 ,3]]
     some_var    = false
@@ -59,3 +38,17 @@ describe 'Listeners', ->
         hands.position = [29, 53, 12, 7, 5, 1, 88, 1 ,3]
         hands.check_listeners()
         some_var.should.equal true
+        punch_listener.remove_from_parent()
+
+    it 'should delete itself when completed if kill on complete is passed in', ->
+        punch           = [[20, 50, 15, 9, 3, 6, 80, 5 ,1]]
+
+        hands.on punch, (->
+            a = 1
+        ),
+        kill_on_complete : true
+
+        hands.position  = [20, 50, 15, 9, 3, 6, 80, 5 ,1]
+        hands.check_listeners()
+
+        hands.listeners.length.should.equal 0
