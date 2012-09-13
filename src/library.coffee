@@ -1,6 +1,8 @@
 class exports.HappyHands
 
     constructor : (window, options) ->
+
+        @checks = 0
         
         if options
             @accuracy   = options.accuracy || 5
@@ -34,6 +36,7 @@ class exports.HappyHands
         return listener
 
     check_listeners : ->
+        @checks++
         for listener in @listeners
             listener.check_status()
 

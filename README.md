@@ -39,12 +39,11 @@ Happy Hands is a client side javascript library which helps you detect physical 
     accuracy            : 10
 
 
-
-
-
-
 ## Generating "Records"
 Records can be created from going to the happy hands web site and recording a gesture.
+
+## Compiling
+`coffee -c -w -o lib/ src/`
 
 ## Testing
 `mocha --compilers coffee:coffee-script -R spec`

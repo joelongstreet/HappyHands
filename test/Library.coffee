@@ -7,7 +7,7 @@ window = browser.window
 
 chai.should()
 
-{HappyHands} = require '../library' 
+{HappyHands} = require '../lib/library' 
 
 hands = null
 
@@ -15,7 +15,6 @@ hands = null
 describe 'The Library', ->
 
     hands = new HappyHands window
-
 
     it 'should work if no options are passed', ->
         hands.accuracy.should.equal 5

@@ -7,11 +7,11 @@ window = browser.window
 
 chai.should()
 
-{HappyHands} = require '../library' 
+{HappyHands} = require '../lib/library' 
 
 hands = null
 
-describe 'Listeners', ->
+describe 'A Listener', ->
 
     hands = new HappyHands window
     hands.accuracy.should.equal 5
@@ -40,7 +40,7 @@ describe 'Listeners', ->
         some_var.should.equal true
         punch_listener.remove_from_parent()
 
-    it 'should delete itself when completed if kill on complete is passed in', ->
+    it 'should delete itself when completed, if kill on complete is passed', ->
         punch           = [[20, 50, 15, 9, 3, 6, 80, 5 ,1]]
 
         hands.on punch, (->

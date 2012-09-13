@@ -2,15 +2,9 @@
   "name": "HappyHands",
   "version": "0.0.1-2",
   "dependencies": {
-    "express": ">= 2.5.9",
-    "socket.io": ">= 0.9.6",
-    "coffee-script": "v1.2.0",
-    "jade": "*",
-    "stylus": "*",
-    "nib" : "*",
-    "socket.io" : "v0.9.6",
     "coffee-script" : "v1.3.3",
-    "connect-assets" : "v2.2.1"
+    "zombie":"v1.4.1",
+    "chai":"v1.2.0"
   },
   "scripts": {
     "start": "runner.js"
