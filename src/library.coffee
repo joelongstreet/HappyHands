@@ -1,11 +1,11 @@
 class exports.HappyHands
 
-    constructor : (window, options) ->
+    constructor : (options) ->
 
         @checks = 0
         
         if options
-            @accuracy   = options.accuracy || 5
+            @accuracy   = options.accuracy || 20
             @poll_speed = options.poll_speed || 50
         else
             @accuracy   = 5
@@ -46,16 +46,15 @@ class Listener
     
     constructor : (@records, @parent, @callback, options) ->
 
-        if options then @options = options
-        else @options = {}
-
-        if @options.accuracy then @accuracy = @options.accuracy
-        else @accuracy = @parent.accuracy
+        if options
+            @accuracy   = options.accuracy || @parent.accuracy
+            @kill_time  = options.kill_time || 1000
+            @kill_on_complete = options.kill_on_complete || false
 
         @complete       = false
         @current_pos    = 0
-        @time           = 0
         @passes         = 0
+        @kill_timeout   = null
 
 
     check_status : ->
@@ -65,17 +64,25 @@ class Listener
         start_time = new Date().getTime()
         
         for point in @records[@current_pos]
+
             if Math.abs(point - @parent.position[_i]) < @accuracy
                 @passes++
-                if @passes == 9 then @current_pos++
+                if @passes >= 5
+                    clearTimeout @kill_timeout
 
-        if @passes == 9 && (@current_pos == @records.length)
+                    @kill_timeout = setTimeout(=>
+                        @current_pos = 0
+                    , @kill_time)
+                    @current_pos++
+
+
+        if Math.abs(@current_pos - @records.length) < 5
             @time = new Date().getTime() - start_time
             @current_pos = 0
 
             @callback()
 
-            if @options.kill_on_complete then @remove_from_parent()
+            if @kill_on_complete then @remove_from_parent()
                 
 
     remove_from_parent : ->
